@@ -11,7 +11,8 @@ declare -A DICT
 
 read -p "Enter no of times to toss the coin" num
 
-flips=2
+flips=3
+#TRIPLET COMBINATION CODE
 function coinFlip() {
 for (( i=1; i<=$num; i++ ))
 do
