@@ -11,20 +11,33 @@ declare -A DICT
 
 read -p "Enter no of times to toss the coin" num
 
-for ((i=0; i<$num; i++))
+flips=2
+function coinFlip() {
+for (( i=1; i<=$num; i++ ))
 do
-	coinSaid=$((RANDOM%2))
-	if [ $coinSaid == $HEADS ]
+str=""
+ for(( j=0; j<$flips; j++ ))
+ do
+   random=$(( RANDOM % 2 ))
+	if [ $random -eq 1 ]
 	then
-		DICT[$HEADS]=$((DICT[$HEADS]+1))
+	   str=$str"H"
 	else
-		DICT[$TAILS]=$((DICT[$TAILS]+1))
+            str=$str"T"
 	fi
+  done
+echo $str
+DICT["$str"]=$(( $((DICT["$str"])) + 1 ))
+done
+}
+
+coinFlip
+echo "${!DICT[@]} : ${DICT[@]}"
+
+for i in ${!DICT[@]}
+do
+	store=$(($((DICT[$i]))*100))
+	percentage=$(($store/$num))
+	echo "occurance percentage of $i:$percentage"
 done
 
-percentH=$(($((DICT[$HEADS]))*100))
-percentHeads=$(($percentH/$num))
-percentT=$(($((DICT[$TAILS]))*100))
-percentTails=$(($percentT/$num))
-echo ${DICT[@]}
-echo "Head percent=$percentHeads % and Tails percent = $percentTails % "
